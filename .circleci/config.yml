@@ -20,18 +20,18 @@ commands:
 jobs:
   # Exercise: Infrastructure Creation
   # Exercise - Rollback
-  # create_infrastructure: 
-  #   docker:
-  #     - image: amazon/aws-cli
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Create Cloudformation Stack
-  #         command: |
-  #           aws cloudformation deploy \
-  #             --template-file template.yml \
-  #             --stack-name myStack \
-  #             --region us-east-1
+  create_infrastructure: 
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy \
+              --template-file template.yml \
+              --stack-name myStack \
+              --region us-east-1
   # configure_infrastructure:
   #   docker:
   #     - image: python:3.11-rc-alpine
@@ -70,6 +70,7 @@ workflows:
   my_workflow:
     # Run the welcome/run job in its own container
     jobs:
-      #- create_infrastructure
+      - create_infrastructure
       #- configure_infrastructure
       - smoke_test
+    
