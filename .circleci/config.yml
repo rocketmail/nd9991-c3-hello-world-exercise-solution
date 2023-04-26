@@ -22,27 +22,42 @@ jobs:
   #             --template-file template.yml \
   #             --stack-name myStack \
   #             --region us-east-1
-  configure_infrastructure:
+  # configure_infrastructure:
+  #   docker:
+  #     - image: python:3.11-rc-alpine
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints:
+  #           - "65:19:90:eb:c1:4e:68:bc:3a:2d:75:67:cf:ee:84:7a"
+  #     - run:
+  #         name: Install ansible
+  #         command: |
+  #           apk add --update ansible
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           ansible-playbook -i inventory.txt main4.yml
+  smoke_test:
     docker:
-      - image: python:3.11-rc-alpine
+      - image: alpine:latest
     steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "65:19:90:eb:c1:4e:68:bc:3a:2d:75:67:cf:ee:84:7a"
+      - run: apk add --update curl
       - run:
-          name: Install ansible
+          name: smoke test
           command: |
-            apk add --update ansible
-      - run:
-          name: Configure server
-          command: |
-            ansible-playbook -i inventory.txt main4.yml
-
+            URL="https://blog.udacity.com/"
+            if curl -s --head ${URL}
+            then
+              return 0
+            else
+              return 1
+            fi
 workflows:
   # Name the workflow "welcome"
   my_workflow:
     # Run the welcome/run job in its own container
     jobs:
       #- create_infrastructure
-      - configure_infrastructure
+      #- configure_infrastructure
+      - smoke_test
