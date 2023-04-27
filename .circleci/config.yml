@@ -20,19 +20,19 @@ commands:
 jobs:
   # Exercise: Infrastructure Creation
   # Exercise - Rollback
-  create_infrastructure: 
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Create Cloudformation Stack
-          command: |
-            aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name myStack \
-              --region us-east-1
-      - destroy_environment 
+  # create_infrastructure: 
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Create Cloudformation Stack
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file template.yml \
+  #             --stack-name myStack \
+  #             --region us-east-1
+  #     - destroy_environment 
   # configure_infrastructure:
   #   docker:
   #     - image: python:3.11-rc-alpine
